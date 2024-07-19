@@ -1,0 +1,41 @@
+{% extends "./base.html" %}
+{% block title %}Tienda{% endblock %}
+{% block body %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<h1>Tienda</h1>
+<div class="container py-4">
+    <form method="GET" action="{% url 'tienda' %}" class="row g-3">
+        <div class="col-auto">
+            <div class="input-group">
+                <input type="text" class="form-control" id="search" name="marca" placeholder="Ingrese la marca" aria-label="Buscar por Marca" aria-describedby="button-addon">
+                <button class="btn btn-primary" type="submit" id="button-addon">Buscar</button>
+            </div>
+        </div>
+    </form><br><br>
+
+    
+    
+
+    <div class="card-list-products">
+        {% for p in productos %}
+        <div class="card">
+            <a href="/compra/{{p.codigo}}" class="card-button">
+                <div class="card-img">
+                    <img class="card-img-top" src="https://www.compraentemuco.cl/wp-content/uploads/2020/05/ferreteria.jpg" alt="Card image cap">
+                </div>
+                <div class="info-card">
+                    <div class="text-product">
+                        <h3>{{p.nombre}}</h3>
+                        <p class="card-text"><small class="text-muted">Marca: {{p.marca}}</small></p>
+                        <h4>Precio: ${{p.precio}}</h4>
+                        <p class="card-text"></p><br>
+                        <a href="/compra/{{p.codigo}}" class="btn btn-secondary">Ver producto</a>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

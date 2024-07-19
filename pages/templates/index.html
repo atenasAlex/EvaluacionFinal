@@ -1,0 +1,74 @@
+{% extends "./base.html"%}
+
+{% block title %}Inicio{% endblock%}
+
+{% block body %}
+  <main>
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary">
+      <div class="col-md-8 p-lg-8 mx-auto my-8">
+        <h1 class="display-3 fw-bold">Bienvenido {{ user.username }} </h1><br>
+        <h3 class="fw-normal text-muted mb-3">En FERREMAS, nos enorgullecemos de ser uno de los principales distribuidores de herramientas, materiales de construcción y accesorios en Chile. Desde nuestros inicios en la década de los 50, hemos crecido y evolucionado junto con la industria de la construcción y ferretería, adaptándonos continuamente a las necesidades de nuestros clientes y del mercado.</h3>
+        <div class="d-flex gap-3 justify-content-center lead fw-normal">
+          <a class="icon-link" href="tienda/">
+            Tienda
+            <svg class="bi"><use xlink:href="#chevron-right"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="product-device shadow-sm d-none d-md-block"></div>
+      <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+    </div>
+  
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette py-4">
+      <div class="col-md-4">
+        
+        <h2>Nuestra sucursales</h2><br>
+        {% for location in locations %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>Atencion!</strong> Por el momento no estamos permitiendo el retiro en tienda, muchas gracias por su comprension.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <ol class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+              <div class="fw-bold">{{ location.name }}</div>
+              {{ location.address }}
+            </div>
+          </li>
+        </ol>
+
+        {% endfor %}
+
+      </div>
+      <div class="col-md-8">
+        {{ map | safe }}
+      </div>
+      
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette py-4">
+      <div class="col-md-7 order-md-2">
+        <h2 class="featurette-heading fw-normal lh-1">Nuestro equipo<span class="text-body-secondary"></span></h2>
+        <p class="lead">Creemos que nuestro mayor activo es nuestro equipo humano. Cada miembro de nuestro equipo aporta su experiencia, conocimiento y dedicación para asegurarse de que nuestros clientes reciban el mejor servicio posible. Estamos orgullosos de contar con un equipo comprometido y profesional que trabaja incansablemente para satisfacer las necesidades de nuestros clientes y mantenernos como líderes en la industria de la construcción y ferretería en Chile.</p>
+      </div>
+      <div class="col-md-5 order-md-1">
+        <img src="https://th.bing.com/th/id/OIP.3c08VO3LeDKGKhcQvFXaRgHaE8?rs=1&pid=ImgDetMain" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500">  
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+   
+  </section>
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+  </main>
+{% endblock%}

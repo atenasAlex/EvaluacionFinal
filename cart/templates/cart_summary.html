@@ -1,0 +1,226 @@
+{% extends "./base.html"%}
+
+{% block title %}Inicio{% endblock%}
+
+{% block body %}
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+
+  <main>
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary">
+      <div class="col-md-6 p-lg-5 mx-auto my-5">
+        <h1 class="display-3 fw-bold">Tus compras</h1>
+        </div>
+      </div>
+      <div class="container">
+        <button class="btn btn-primary hBack " type="button">Volver</button>
+        <a class="btn btn-secondary" href="/">
+          Inicio
+        </a>
+      </div>
+    </div>
+
+<div class="container">
+<div class="d-flex justify-content-end">
+<h6>Valor actual del dolar: {{valor_dolar}} </h6>
+</div>
+    {% if cart_products %}
+      <div class="container px-3 my-5 clearfix">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered m-0">
+                    <thead>
+                      <tr>
+                        <th class="text-center py-3 px-4" style="min-width: 400px;">Nombre del producto &amp; Detalles</th>
+                        <th class="text-right py-3 px-4" style="width: 100px;">Precio</th>
+                        <th class="text-center py-3 px-4" style="width: 120px;">Cantidad</th>                      
+                        <th class="text-center align-middle py-3 px-0" style="width: 40px;"><a href="#" class="shop-tooltip float-none text-light" title="" data-original-title="Clear cart"><i class="ino ion-md-trash"></i></a></th>
+                      </tr>
+                    </thead>
+
+                    {% for producto in cart_products %}
+                    <div>
+                      <tbody>
+                        <tr>
+                          <td class="p-4">
+                            <div class="media align-items-center">
+                              <div class="media-body">
+                                <h6>{{producto.nombre}}</h6>
+                                <small>
+                                  <span class="text-muted">Codigo: {{producto.codigo}}</span>
+                                  <span class="text-muted">Marca: </span> {{producto.marca}}
+                                </small>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="text-right font-weight-semibold align-middle p-4">${{producto.precio}}</td>
+                          <td class="align-middle p-4">
+                            <select class="form-select form-select-sm" id="qty_cart">
+                              <option selected>
+                                {% for key, value in quantities.items %}
+                                {% if key == producto.codigo|slugify %}
+                                  {{ value }}
+                                {% endif %}
+                                {% endfor %}
+                              </option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                            </select>
+                          </td>    
+                          <td class="text-center align-middle px-0"><button type="button" class="btn-close delete-product" aria-label="Close" data-index="{{producto.codigo}}"></button></td>
+                        </tr>             
+                      </tbody>
+                    </div>
+                    {% endfor %}
+                  </table>
+                </div>
+                <br>
+                <div class="Despacho">
+                  <h5>Despacho</h5>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                    <label class="form-check-label" for="inlineRadio1">Envío a domicilio</label>
+                  </div>
+          
+                  
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" disabled>
+                    <label class="form-check-label" for="inlineRadio3">Retiro en tienda</label>
+                  </div>
+                </div><br>
+          
+                <div id="contenido-envio" style="display: none;">
+
+
+                  
+                  <form method="POST" action="{% url 'pago' %}"> {% csrf_token %}
+                    <div class="form-group">
+                        <label for="full_name_id" class="control-label">Nombre y apellido</label>
+                        <input type="text" class="form-control" id="txtName" name="txtName">
+                    </div>  <br>  
+                
+                    <div class="form-group">
+                        <label for="street1_id" class="control-label">Dirección</label>
+                        <input type="text" class="form-control" id="txtDirecc" name="txtDirecc" placeholder="Antonio Varas 666, Providencia, Región Metropolitana">
+                    </div>     <br>               
+                                            
+                    <div class="form-group"> 
+                        <label for="street2_id" class="control-label">Número</label>
+                        <input type="number" class="form-control" id="numDirec" name="numDirec" placeholder="#666">
+                    </div>    <br>
+                
+                    <div class="form-group">
+                        <label for="city_id" class="control-label">Comuna</label>
+                        <input type="text" class="form-control" id="txtComuna" name="txtComuna" placeholder="Padre Hurtado">
+                    </div>     <br>   
+                    
+                    <div class="form-group">
+                      <label for="region_id" class="control-label">Región</label>
+                      <select name="sRegion" id="sRegion" class="form-control" onchange="mostrarSeleccion()">
+                        <option value=""disabled selected>Seleccionar region</option>
+                        <option value="Arica y Parinacota">Región de Arica y Parinacota</option>
+                        <option value="Tarapacá">Región de Tarapacá</option>
+                        <option value="Antofagasta">Región de Antofagasta</option>
+                        <option value="Atacama">Región de Atacama</option>
+                        <option value="Coquimbo">Región de Coquimbo</option>
+                        <option value="Valparaíso">Región de Valparaíso</option>
+                        <option value="Metropolitana">Región Metropolitana</option>
+                        <option value="O'Higgins">Región de O'Higgins</option>
+                      </select>
+                    </div>
+                    <br>
+                    <div class="total-envio">
+                      <div class="d-flex">
+                        <div class="text-right mt-4">
+                          <label class="text-muted font-weight-normal m-0" id="mensajeSeleccion"></label>
+                          <div class="text-large">Total: $ {{ totals }}</div>
+                          
+                          <div class="text-large">
+                            <p>Envio: + $5000</p>
+                            <strong>Total: $ {{ totals|add:envio }}</strong></div>
+                        </div>
+                      </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Ir a pagar</button>
+                </form>
+                </div>
+                
+              
+              </div>
+          </div>
+      </div>
+      <br>
+
+      {% else %}
+        <h6>No hay nada en tu carrito... ve a la tienda para agregar cosas </h6>
+
+        <a class="icon-link" href="/tienda">
+          Tienda
+          <svg class="bi"><use xlink:href="#chevron-right"/></svg>
+        </a>
+        
+
+    {% endif %}
+</div>
+<br><br><br>
+<script>
+  $(document).on('click', '.delete-product', function(e){
+    e.preventDefault();
+
+
+    $.ajax({
+      type: 'POST',
+      url: '{% url "cart_delete" %}',
+      data: {
+        producto_codigo: $(this).data('index'),
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        action: 'post'
+      },
+      success: function(json){
+        location.reload();
+      },
+      error: function(xhr, errmsg, err){
+
+      }
+
+    })
+  });
+
+</script>
+
+<script>
+
+  const radioEnvio = document.getElementById('inlineRadio1');
+  const contenidoEnvio = document.getElementById('contenido-envio');
+
+
+  radioEnvio.addEventListener('change', function() {
+
+    if (radioEnvio.checked) {
+
+      contenidoEnvio.style.display = 'block';
+    } else {
+
+      contenidoEnvio.style.display = 'none';
+    }
+  });
+</script>
+
+<script>
+  function mostrarSeleccion() {
+    var seleccion = document.getElementById("region").value;
+    var mensajeSeleccion = document.getElementById("mensajeSeleccion");
+
+    if (seleccion !== "") {
+      mensajeSeleccion.textContent = "Envio: +$5000";
+
+    } else {
+      mensajeSeleccion.textContent = "";
+    }
+  }
+</script>
+</main>
+{% endblock%}

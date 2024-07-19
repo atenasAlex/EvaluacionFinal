@@ -1,0 +1,81 @@
+{% extends "./base.html"%}
+
+{% block title %}Inicio{% endblock%}
+{% block body %}
+
+
+
+<svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+    <symbol id="info-fill" viewBox="0 0 16 16">
+      <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+    </symbol>
+  </svg>
+  
+
+
+  <div class="alert alert-primary alert-dismissible fade show" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="50" height="50" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+    <strong>¡Consejo!</strong> Verifica tus datos antes de realizar el pago.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<br>
+
+<h1>Detalles del envío</h1>
+<br>
+
+
+<div class="table-responsive">
+    <table class="table table-bordered m-0">
+    <thead>
+        <tr>       
+        <th class="text-center py-3 px-4" style="min-width: 400px;">Nombre del producto &amp; Detalles</th>
+        </tr>
+    </thead>
+    <div>
+        <tbody>
+        <tr>
+            <td class="p-4">
+                <div class="media align-items-center">
+                    <h6>Nombre comprador: </h6>
+                    <strong>{{ nombre }}</strong><br><br>
+
+                    <h6>Dirección de envío</h6>
+                    <strong>{{ direccion }} #{{ numero }}, {{ comuna }}, Región de {{ region }}. </strong><br><br>
+
+                    <h6>Total a pagar: </h6>${{ totalenvio|add:envio }}
+
+
+
+                    <div id="wallet_container"></div> 
+                    
+                </div>
+            </td>            
+          </tbody>
+        </div>
+      </table>
+    </div>
+
+
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <script>
+        const mp = new MercadoPago('TEST-89a9a623-e965-402a-bb9a-900eafe1294b', {
+          locale: 'es-CL'
+        });
+        const bricksBuilder = mp.bricks();
+      
+      
+        mp.bricks().create("wallet", "wallet_container", {
+         initialization: {
+             preferenceId: "wallet_container",
+             redirectMode: "self"
+         },
+          customization: {
+          texts: {
+            valueProp: 'smart_option',
+          },
+          },
+        });
+      </script>
+
+
+{% endblock%}

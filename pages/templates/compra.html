@@ -1,0 +1,79 @@
+{% extends "./base.html"%}
+
+{% block title %}Comprar{% endblock%}
+
+{% block body %}
+
+<main>
+    <div class="card text-center">
+
+        <div class="card-header">
+          <button class="btn btn-primary hBack d-flex" type="button">Volver</button>
+        </div>
+
+        <div class="d-flex justify-content-center container mt-5">
+          <div class="card p-5 bg-white"><i class="fa fa-apple"></i>
+              <div class="about-product text-center mt-2"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Hammer_and_sickle_red_on_transparent.svg/640px-Hammer_and_sickle_red_on_transparent.svg.png" width="300"><br>
+                  <div>
+                      <h4>{{producto.marca}}</h4>
+                      <h6 class="mt-0 text-black-50">{{producto.nombre}} </h6>
+                  </div>
+              </div>
+              <div class="stats mt-2">     
+                  <div class="d-flex justify-content-between p-price"><span>Codigo: </span><span>{{producto.codigo}}</span></div><br>
+                  <div class="d-flex justify-content-between align-items-center p-price">
+                    <p>Cantidad:</p>
+                    <div>
+                      <select class="form-select form-select-sm" id="qty_cart">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select>
+                    </div>
+                  </div></span></div><br>
+                <div class="d-flex justify-content-between total font-weight-bold mt-4"><span>Precio: </span><span>${{producto.precio}}</span></div><br>
+                <div class="card-body">
+                  <button type="button" value="{{ producto.codigo }}" class="btn btn-outline-dark" id="add_cart">Agregar al carrito</button>
+                </div> 
+              </div>
+              
+          </div>
+          <br><br>
+      </div>
+
+      </div>
+</main>
+
+<script>
+
+$(document).on('click', '#add_cart', function(e){
+  e.preventDefault();
+  $.ajax({
+    type: 'POST',
+    url: '{% url "cart_add" %}',
+    data: {
+      producto_codigo: $('#add_cart').val(),
+      producto_qty: $('#qty_cart option:selected').text(),
+      csrfmiddlewaretoken: '{{ csrf_token }}',
+      action: 'post'
+    },
+
+    success: function(json){
+      //console.log(json)
+      document.getElementById("cart_quantity").textContent = json.qty
+    },
+
+    error: function(xhr, errmsg, err){
+
+    }
+  });
+
+});
+
+
+
+</script>
+
+{% endblock%}

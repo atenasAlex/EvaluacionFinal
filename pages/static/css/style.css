@@ -1,0 +1,87 @@
+.card-list-products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Tres columnas fijas */
+    gap: 25px; /* Espacio entre tarjetas */
+  }
+  
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+    background: white;
+    height: 100%; /* Asegura que todas las tarjetas tengan la misma altura */
+  }
+  
+  .card-img {
+    background: transparent;
+    margin-bottom: 15px;
+  }
+  
+  .card-img img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .info-card {
+    padding: 15px;
+    flex-grow: 1; /* Permite que el contenido crezca para ocupar el espacio disponible */
+  }
+  
+  .text-product {
+    color: #252525;
+    font-weight: 300;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+  
+  .text-product h3 {
+    color: inherit;
+    font-weight: inherit;
+    font-size: 15px;
+  }
+  
+  .card-button {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .card-button:hover {
+    opacity: 0.9;
+  }
+  
+  .card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .price {
+    font-size: 1.2em;
+    color: #333;
+  }
+  
+  .cart-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #ff6f61;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 24px;
+  }
+  
+
+
+  .color-blanco {
+    color: rgb(255, 255, 255);
+}

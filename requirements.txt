@@ -1,0 +1,4 @@
+Django==5.0.6
+folium==0.17.0
+mercadopago==2.2.1
+Requests==2.32.3

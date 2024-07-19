@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Servicio al Cliente{% endblock %}
+
+{% block body %}
+<h1>Servicio al Cliente</h1>
+<p>Bienvenido al apartado de Servicio al Cliente de Ferremas. Aquí encontrarás toda la información necesaria para resolver tus dudas y consultas.</p>
+<div class="row">
+    <div class="col-md-6">
+        <h2>Contacto</h2>
+        <ul class="list-unstyled">
+            <li><i class="bi bi-envelope-fill"></i> Correo: <a href="mailto:soporte@ferremas.cl">soporte@ferremas.cl</a></li>
+            <li><i class="bi bi-telephone-fill"></i> Teléfono: <a href="tel:+56912345678">+56 9 1234 5678</a></li>
+            <li><i class="bi bi-whatsapp"></i> WhatsApp: <a href="https://wa.me/56946175655">+56 9 4617 5655</a></li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <h2>Información Útil</h2>
+        <ul class="list-unstyled">
+            <li><a href="#">Preguntas Frecuentes</a></li>
+            <li><a href="#">Política de Devoluciones</a></li>
+            <li><a href="#">Términos y Condiciones</a></li>
+        </ul>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-md-12">
+        <h2>Contáctanos</h2>
+        <form method="post" action="{% url 'customer_service' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="name" name="name" aria-label="Nombre" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo Electrónico</label>
+                <input type="email" class="form-control" id="email" name="email" aria-label="Correo Electrónico" required>
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Mensaje</label>
+                <textarea class="form-control" id="message" name="message" rows="3" aria-label="Mensaje" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
